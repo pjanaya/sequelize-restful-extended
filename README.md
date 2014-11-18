@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/pjanaya/sequelize-restful-extended.svg?branch=master)](https://travis-ci.org/pjanaya/sequelize-restful-extended)
 
-A connect module based on a fork of sequelize-restful. Creates a restful API with associations from your Sequelize models and allows you to include parameters like `sort`, `offset`, `limit` and `order`. It also allows more complex operations like data range filters or include WHERE LIKE fields in SELECT operations.
+A connect module based on a fork of sequelize-restful. Creates a restful API with associations from your Sequelize models and allows you to include parameters like `sort`, `offset`, `limit` and `order`. It also allows more complex operations like data range filters or include complex WHERE operations with many conditions in the fields. This operations include LIKE, GTE (Greater than or equal ">="), GT (Greater than ">"), LTE (Lower than or equal "<="), LT (Lower than "<") and NE (Not equal "!=").
 
 It uses the Sequelize function `findAndCountAll` instead of `findAll`. Thanks to this, the basic GET request returns the total count of rows in the response. This number doesn't take account of the query parameters `offset` and `limit`. This feature makes easier to do pagination using the generated API.    
 
@@ -236,6 +236,134 @@ $ curl http://localhost:3000/api/Tags?title_like=foo
     "createdAt": "2013-02-10T09:48:14.000Z",
     "updatedAt": "2013-02-10T09:48:14.000Z",
     "ProjectId": 2
+  },{
+    "title": "foo3",
+    "id": 3,
+    "createdAt": "2013-02-11T09:48:14.000Z",
+    "updatedAt": "2013-02-11T09:48:14.000Z",
+    "ProjectId": 2
+  }]
+}
+```
+
+### GET /api/Tags?id_gte=2
+
+Returns all Tags where ID is >= 2
+
+```console
+$ curl http://localhost:3000/api/Tags?id_gte=2
+```
+
+```js
+{
+  "status": "success",
+  "count": 2,
+  "data": [{
+    "title": "foo2",
+    "id": 2,
+    "createdAt": "2013-02-10T09:48:14.000Z",
+    "updatedAt": "2013-02-10T09:48:14.000Z",
+    "ProjectId": 2
+  },{
+    "title": "foo3",
+    "id": 3,
+    "createdAt": "2013-02-11T09:48:14.000Z",
+    "updatedAt": "2013-02-11T09:48:14.000Z",
+    "ProjectId": 2
+  }]
+}
+```
+
+### GET /api/Tags?id_gt=2
+
+Returns all Tags where ID is > 2
+
+```console
+$ curl http://localhost:3000/api/Tags?id_gt=2
+```
+
+```js
+{
+  "status": "success",
+  "count": 1,
+  "data": {
+    "title": "foo3",
+    "id": 3,
+    "createdAt": "2013-02-11T09:48:14.000Z",
+    "updatedAt": "2013-02-11T09:48:14.000Z",
+    "ProjectId": 2
+  }
+}
+```
+
+### GET /api/Tags?id_lte=2
+
+Returns all Tags where id is <= 2
+
+```console
+$ curl http://localhost:3000/api/Tags?id_lte=2
+```
+
+```js
+{
+  "status": "success",
+  "count": 2,
+  "data": [{
+    "title": "foo",
+    "id": 1,
+    "createdAt": "2013-02-09T09:48:14.000Z",
+    "updatedAt": "2013-02-09T09:48:14.000Z",
+    "ProjectId": 1
+  },{
+    "title": "foo2",
+    "id": 2,
+    "createdAt": "2013-02-10T09:48:14.000Z",
+    "updatedAt": "2013-02-10T09:48:14.000Z",
+    "ProjectId": 2
+  }]
+}
+```
+
+### GET /api/Tags?id_lt=2
+
+Returns all Tags where id is < 2
+
+```console
+$ curl http://localhost:3000/api/Tags?id_lt=2
+```
+
+```js
+{
+  "status": "success",
+  "count": 1,
+  "data": {
+    "title": "foo",
+    "id": 1,
+    "createdAt": "2013-02-09T09:48:14.000Z",
+    "updatedAt": "2013-02-09T09:48:14.000Z",
+    "ProjectId": 1
+  }
+}
+```
+
+### GET /api/Tags?id_ne=2
+
+Returns all Tags where id is != 2
+
+```console
+$ curl http://localhost:3000/api/Tags?id_ne=2
+```
+
+```js
+{
+  "status": "success",
+  "count": 2,
+  "data": [{
+    "title": "foo",
+    "id": 1,
+    "createdAt": "2013-02-09T09:48:14.000Z",
+    "updatedAt": "2013-02-09T09:48:14.000Z",
+    "ProjectId": 1
   },{
     "title": "foo3",
     "id": 3,
